@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
     const completion = await client.chat.completions.create({
       model: MODEL,
       messages: [{ role: "system", content: prompt }],
-      // @ts-ignore - OpenRouter supports extra_body for reasoning
+      // @ts-expect-error - OpenRouter supports extra_body for reasoning
       extra_body: { reasoning: { enabled: true } },
     });
 

@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import ChatBox from "./_components/ChatBox";
 import TripDetails from "./_components/TripDetails";
 import { Sparkles } from "lucide-react";
-// import { demoTripData, demoTripPlan } from "./_components/demoTripData";
+
 
 export default function CreateNewTrip() {
-  const [tripPlan, setTripPlan] = useState<any>(null); // Use demo data
+  const [tripPlan, setTripPlan] = useState<any>(null);
   const [tripData, setTripData] = useState<any>(null);
 
   return (

@@ -54,7 +54,7 @@ function MyTrips() {
               No trips found
             </h3>
             <p className="text-neutral-600 dark:text-neutral-400 max-w-md mb-6">
-              You haven't created any trips yet. Start a conversation with our AI assistant to plan your next adventure!
+              You haven&apos;t created any trips yet. Start a conversation with our AI assistant to plan your next adventure!
             </p>
             <a
               href="/create-new-trip"

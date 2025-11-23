@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Brain, Wallet, Globe, Sparkles, Heart } from 'lucide-react';
+import { Brain, Wallet, Globe, Sparkles, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AboutPage() {
@@ -58,7 +58,7 @@ export default function AboutPage() {
                 We set out to solve this by combining the power of advanced AI with a deep love for exploration.
               </p>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Whether you're a budget backpacker or a luxury seeker, our goal is to make 
+                Whether you&apos;re a budget backpacker or a luxury seeker, our goal is to make 
                 global discovery accessible, effortless, and uniquely yours.
               </p>
             </div>
@@ -75,7 +75,7 @@ export default function AboutPage() {
                     </div>
                   </div>
                   <blockquote className="text-lg font-medium text-neutral-700 dark:text-neutral-300 italic">
-                    "The world is a book and those who do not travel read only one page."
+                    &quot;The world is a book and those who do not travel read only one page.&quot;
                   </blockquote>
                   <div className="mt-4 text-sm font-bold text-emerald-600 dark:text-emerald-400">— St. Augustine</div>
                </div>
@@ -115,7 +115,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Budget Optimization</h3>
               <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
-                Whether you're on a shoestring or splashing out, we find the best spots that fit your financial comfort zone.
+                Whether you&apos;re on a shoestring or splashing out, we find the best spots that fit your financial comfort zone.
               </p>
             </div>
 

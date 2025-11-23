@@ -1,4 +1,7 @@
 
+import { motion } from "framer-motion";
+import { Home, Star, MapPin, ExternalLink } from "lucide-react";
+
 export function HotelCard({ hotel }: { hotel: any }) {
   return (
     <motion.div

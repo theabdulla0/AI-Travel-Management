@@ -7,7 +7,8 @@ import User from '@/models/User';
 export async function saveTrip(tripData: {
   tripId: string;
   userId: string;
-  tripDetail: any;
+
+  tripDetail: Record<string, any>;
 }) {
   console.log("saveTrip called for user:", tripData.userId);
   try {
