@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Calendar, Wallet, Plane, Sparkles, MapPin, Clock, Star, ExternalLink } from 'lucide-react';
-import Link from 'next/link';
+
 
 export default function TripDetailsView({ tripPlan }: { tripPlan: any }) {
   return (

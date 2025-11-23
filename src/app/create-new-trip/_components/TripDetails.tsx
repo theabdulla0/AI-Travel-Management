@@ -6,8 +6,7 @@ import {
   Calendar, 
   Wallet, 
   Sparkles,
-  Plane,
-  Star
+  Plane
 } from "lucide-react";
 import { DaySection } from "./TripDetailsComponents/DaySection";
 

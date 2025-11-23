@@ -139,7 +139,7 @@ function ChatBox({ onTripGenerated, onTripDataUpdate }: ChatBoxProps) {
   const [lastTripPlan, setLastTripPlan] = useState<any | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
-  const { userDetail, setUserDetail } = useUserDetail();
+  const { userDetail } = useUserDetail();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -157,40 +157,89 @@ function ChatBox({ onTripGenerated, onTripDataUpdate }: ChatBoxProps) {
 
   const hasInitialized = useRef(false);
 
-  useEffect(() => {
-    if (!hasInitialized.current) {
-      hasInitialized.current = true;
-      setTimeout(() => {
-        askNextQuestion();
-      }, 1000);
-    }
-  }, []);
 
-  const askNextQuestion = () => {
-    const nextIndex = currentQuestionIndex + 1;
-    if (nextIndex < QUESTIONS.length) {
-      setCurrentQuestionIndex(nextIndex);
-      const question = QUESTIONS[nextIndex];
 
-      setIsTyping(true);
-      setTimeout(() => {
-        const botMessage: Message = {
+  const handleSaveTrip = async (data?: {
+    tripDetail: any;
+    tripId: string;
+    userId?: string;
+  }) => {
+    const tripDetail = data?.tripDetail || lastTripPlan;
+
+    if (!tripDetail) {
+      setMessages((prev) => [
+        ...prev,
+        {
           id: Date.now().toString(),
-          content: question.text,
+          content: "No trip plan to save yet. Generate a plan first.",
           role: "bot",
           timestamp: new Date(),
-          options:
-            question.type === "options" || question.type === "multiple"
-              ? question.options
-              : undefined,
-        };
-        setMessages((prev) => [...prev, botMessage]);
-        setIsTyping(false);
-        if (question.type === "multiple") setSelectedOptions([]);
-      }, 600);
-    } else {
-      generateTripSummary();
+        },
+      ]);
+      return;
     }
+    try {
+      setIsSaving(true);
+      const tripId = data?.tripId || uuidv4();
+      await saveTrip({
+        tripDetail: tripDetail,
+        tripId: tripId,
+        userId: data?.userId || userDetail?._id, // Assuming userDetail has _id from MongoDB
+      });
+      console.log("Trip Saved");
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          content: "✅ Trip saved successfully!",
+          role: "bot",
+          timestamp: new Date(),
+          type: "success",
+        },
+      ]);
+    } catch (e: any) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          content: `❌ Failed to save trip: ${e.message || "Unknown error"}`,
+          role: "bot",
+          timestamp: new Date(),
+          type: "error",
+        },
+      ]);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const formatTripPlanMessage = (tripPlan: any) => {
+    return `✨ Your ${tripPlan.tripTitle || "Trip"} is Ready!
+
+📍 Destination: ${tripPlan.destination?.city}, ${tripPlan.destination?.country}
+📅 Duration: ${tripPlan.durationDays} days
+💰 Budget: ${tripPlan.budgetCategory}
+👥 Group: ${tripPlan.groupSize}
+
+📋 Highlights:
+${
+  tripPlan.itinerary
+    ?.slice(0, 3)
+    .map(
+      (day: any) =>
+        `Day ${day.day}: ${day.title}
+• Morning: ${day.activities?.[0]?.name || "Arrival & Check-in"}
+• Afternoon: ${day.activities?.[1]?.name || "Explore the area"}
+• Evening: ${day.activities?.[2]?.name || "Local dining"}
+🏨 Stay: ${day.hotel?.name || "Selected accommodation"}`
+    )
+    .join("\n") || "Detailed itinerary available"
+}
+
+💵 Estimated Costs:
+• Total: ${tripPlan.estimatedCost?.total || "—"}
+• Per Person: ${tripPlan.estimatedCost?.perPerson || "—"}`;
   };
 
   const generateTripPlan = async () => {
@@ -313,89 +362,6 @@ function ChatBox({ onTripGenerated, onTripDataUpdate }: ChatBoxProps) {
     }
   };
 
-  const handleSaveTrip = async (data?: {
-    tripDetail: any;
-    tripId: string;
-    userId?: string;
-  }) => {
-    const tripDetail = data?.tripDetail || lastTripPlan;
-
-    if (!tripDetail) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now().toString(),
-          content: "No trip plan to save yet. Generate a plan first.",
-          role: "bot",
-          timestamp: new Date(),
-        },
-      ]);
-      return;
-    }
-    try {
-      setIsSaving(true);
-      const tripId = data?.tripId || uuidv4();
-      await saveTrip({
-        tripDetail: tripDetail,
-        tripId: tripId,
-        userId: data?.userId || userDetail?._id, // Assuming userDetail has _id from MongoDB
-      });
-      console.log("Trip Saved");
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now().toString(),
-          content: "✅ Trip saved successfully!",
-          role: "bot",
-          timestamp: new Date(),
-          type: "success",
-        },
-      ]);
-    } catch (e: any) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now().toString(),
-          content: `❌ Failed to save trip: ${e.message || "Unknown error"}`,
-          role: "bot",
-          timestamp: new Date(),
-          type: "error",
-        },
-      ]);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const formatTripPlanMessage = (tripPlan: any) => {
-    return `✨ Your ${tripPlan.tripTitle || "Trip"} is Ready!
-
-📍 Destination: ${tripPlan.destination?.city}, ${tripPlan.destination?.country}
-📅 Duration: ${tripPlan.durationDays} days
-💰 Budget: ${tripPlan.budgetCategory}
-👥 Group: ${tripPlan.groupSize}
-
-📋 Highlights:
-${
-  tripPlan.itinerary
-    ?.slice(0, 3)
-    .map(
-      (day: any) =>
-        `Day ${day.day}: ${day.title}
-• Morning: ${day.activities?.[0]?.name || "Arrival & Check-in"}
-• Afternoon: ${day.activities?.[1]?.name || "Explore the area"}
-• Evening: ${day.activities?.[2]?.name || "Local dining"}
-🏨 Stay: ${day.hotel?.name || "Selected accommodation"}`
-    )
-    .join("\n") || "Detailed itinerary available"
-}
-
-💵 Estimated Costs:
-• Total: ${tripPlan.estimatedCost?.total || "—"}
-• Per Person: ${tripPlan.estimatedCost?.perPerson || "—"}`;
-  };
-
   const generateTripSummary = () => {
     setIsTyping(true);
     setTimeout(() => {
@@ -424,6 +390,50 @@ Let me create your personalized itinerary...`;
       }, 1000);
     }, 700);
   };
+
+  const askNextQuestion = () => {
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex < QUESTIONS.length) {
+      setCurrentQuestionIndex(nextIndex);
+      const question = QUESTIONS[nextIndex];
+
+      setIsTyping(true);
+      setTimeout(() => {
+        const botMessage: Message = {
+          id: Date.now().toString(),
+          content: question.text,
+          role: "bot",
+          timestamp: new Date(),
+          options:
+            question.type === "options" || question.type === "multiple"
+              ? question.options
+              : undefined,
+        };
+        setMessages((prev) => [...prev, botMessage]);
+        setIsTyping(false);
+        if (question.type === "multiple") setSelectedOptions([]);
+      }, 600);
+    } else {
+      generateTripSummary();
+    }
+  };
+
+  useEffect(() => {
+    if (!hasInitialized.current) {
+      hasInitialized.current = true;
+      setTimeout(() => {
+        askNextQuestion();
+      }, 1000);
+    }
+  }, [askNextQuestion]);
+
+
+
+
+
+
+
+
 
   const handleOptionClick = async (option: string) => {
     const currentQuestion = QUESTIONS[currentQuestionIndex];

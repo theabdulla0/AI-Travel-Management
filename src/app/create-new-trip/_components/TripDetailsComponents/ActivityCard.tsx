@@ -12,8 +12,7 @@ import {
   Star,
   Leaf,
   Wallet,
-  ExternalLink,
-  Image as ImageIcon
+  ExternalLink
 } from "lucide-react";
 
 // --- Icon Mapping ---
