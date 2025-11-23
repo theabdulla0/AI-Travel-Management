@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useUserDetail } from "../provider";
 import { getUserTrips } from "../actions/trip";
 import UserTripCard from "./_components/UserTripCard";
@@ -10,13 +10,7 @@ function MyTrips() {
   const [userTrips, setUserTrips] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (userDetail) {
-      fetchTrips();
-    }
-  }, [userDetail]);
-
-  const fetchTrips = async () => {
+  const fetchTrips = useCallback(async () => {
     try {
       setLoading(true);
       const trips = await getUserTrips(userDetail._id);
@@ -26,7 +20,13 @@ function MyTrips() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userDetail]);
+
+  useEffect(() => {
+    if (userDetail) {
+      fetchTrips();
+    }
+  }, [userDetail, fetchTrips]);
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 py-12">

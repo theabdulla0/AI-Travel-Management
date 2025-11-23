@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   Send,
   Bot,
@@ -391,7 +391,7 @@ Let me create your personalized itinerary...`;
     }, 700);
   };
 
-  const askNextQuestion = () => {
+  const askNextQuestion = useCallback(() => {
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < QUESTIONS.length) {
       setCurrentQuestionIndex(nextIndex);
@@ -416,7 +416,7 @@ Let me create your personalized itinerary...`;
     } else {
       generateTripSummary();
     }
-  };
+  }, [currentQuestionIndex, generateTripSummary]);
 
   useEffect(() => {
     if (!hasInitialized.current) {
