@@ -357,12 +357,13 @@ ${
       setMessages((prev) =>
         prev.filter((m) => m.type !== "loading").concat(errorMessage)
       );
+
     } finally {
       setIsGeneratingTrip(false);
     }
   };
 
-  const generateTripSummary = () => {
+  const generateTripSummary = useCallback(() => {
     setIsTyping(true);
     setTimeout(() => {
       const summary = `Perfect! Here's what I've gathered:
@@ -389,7 +390,7 @@ Let me create your personalized itinerary...`;
         generateTripPlan();
       }, 1000);
     }, 700);
-  };
+  }, [tripData]);
 
   const askNextQuestion = useCallback(() => {
     const nextIndex = currentQuestionIndex + 1;

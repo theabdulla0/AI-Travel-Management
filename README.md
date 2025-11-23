@@ -1,40 +1,116 @@
-# AI Travel Management
+# 🌍 AI Travel Management
 
-AI Travel Management is a smart travel planning application that uses AI to generate personalized itineraries based on your preferences.
+**AI Travel Management** is a cutting-edge, intelligent travel planning application designed to create personalized, day-by-day itineraries tailored to your unique preferences. Powered by advanced AI and secured with modern web technologies, it transforms the way you plan your journeys.
 
-## Features
+![App Banner](/public/screenshots/banner.png)
+_(Add a banner image here)_
 
-- **AI Trip Generation**: Create detailed day-by-day itineraries.
-- **Personalized Preferences**: Customize your trip based on budget, companions, and interests.
-- **Interactive Chat**: Plan your trip through a conversational interface.
-- **Trip Management**: Save and view your generated trips.
+## ✨ Features
 
-## Getting Started
+### 🤖 AI-Powered Planning
 
-First, run the development server:
+- **Smart Itinerary Generation**: Generates detailed day-by-day travel plans including hotels, activities, and dining options.
+- **Conversational Interface**: Plan your trip through an intuitive, chat-like experience.
+- **Personalized Recommendations**: Tailors trips based on budget, travel companions (Solo, Couple, Family, Friends), and interests (Adventure, Culture, Food, etc.).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 🔐 Security & Authentication
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Secure Authentication**: Robust user sign-up and login powered by **Clerk**.
+- **Advanced Security**: Integrated **Arcjet** for:
+  - **Bot Protection**: Blocks automated threats.
+  - **Rate Limiting**: Prevents abuse of AI generation endpoints.
+  - **SQL/XSS Shield**: Protects against common web attacks.
+- **Route Protection**: Client-side and server-side guards ensure only authenticated users access sensitive pages.
 
-## Tech Stack
+### 👤 User Experience
 
-- **Framework**: Next.js
-- **Styling**: Tailwind CSS
-- **Database**: MongoDB
-- **Authentication**: Clerk
-- **AI**: Google Gemini (or relevant model)
+- **Profile Management**: Dedicated profile page to manage personal details and preferences.
+- **Trip History**: "My Trips" section to view and revisit all your generated itineraries.
+- **Interactive UI**: Beautiful, responsive design built with **Tailwind CSS** and **Radix UI**.
+- **Smooth Animations**: Enhanced user interactions using **GSAP** and **Framer Motion**.
 
-## Deploy on Vercel
+### 🛠️ Additional Tools
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Image Search**: Automatically fetches relevant images for destinations and hotels using **Google Places/SerpAPI**.
+- **Toast Notifications**: Real-time feedback for user actions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, Class Variance Authority (CVA)
+- **Authentication**: [Clerk](https://clerk.com/)
+- **Database**: MongoDB (via Mongoose)
+- **AI Integration**: OpenAI / Gemini API
+- **Security**: [Arcjet](https://arcjet.com/)
+- **UI Components**: Radix UI, Lucide React
+- **Animations**: GSAP, Motion (Framer Motion)
+- **HTTP Client**: Axios
+- **External APIs**: SerpAPI (Google Images)
+
+## 📦 Installation
+
+Follow these steps to set up the project locally:
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/your-username/ai-travel-management.git
+    cd ai-travel-management
+    ```
+
+2.  **Install dependencies:**
+
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+
+3.  **Set up Environment Variables:**
+    Create a `.env.local` file in the root directory and add the following keys:
+
+    ```env
+    # Next.js
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+    CLERK_SECRET_KEY=sk_test_...
+
+    # Database
+    MONGODB_URI=mongodb+srv://...
+
+    # AI & APIs
+    OPENAI_API_KEY=sk-... (or Gemini Key)
+    SERPAPI_API_KEY=...
+
+    # Security
+    ARCJET_KEY=ajkey_...
+    ```
+
+4.  **Run the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+5.  **Open the app:**
+    Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 📸 Screenshots
+
+|                 Home Page                  |                Trip Generation                |
+| :----------------------------------------: | :-------------------------------------------: |
+| ![Home Page](/public/screenshots/home.png) | ![Trip Gen](/public/screenshots/trip-gen.png) |
+|        _(Add Home Page Screenshot)_        |       _(Add Chat Interface Screenshot)_       |
+
+|                     Trip Details                      |                User Profile                 |
+| :---------------------------------------------------: | :-----------------------------------------: |
+| ![Trip Details](/public/screenshots/trip-details.png) | ![Profile](/public/screenshots/profile.png) |
+|           _(Add Itinerary View Screenshot)_           |       _(Add Profile Page Screenshot)_       |
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License.
