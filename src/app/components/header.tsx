@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../../components/ui/button";
-import { Menu, LogOut } from "lucide-react";
+import { Menu, LogOut, User2 } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -13,6 +13,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../../components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../components/ui/dropdown-menu";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -81,29 +89,117 @@ function Header() {
           {/* Desktop CTA - Always render the container */}
           <div className="hidden md:block">
             {/* Always render a consistent height container */}
-            <div className="h-10 flex items-center">
+            <div className="h-12 flex items-center">
               {!isLoaded ? (
                 // Loading skeleton - matches button size
-                <div className="h-10 w-20 animate-pulse rounded-full bg-muted" />
+                <div className="h-12 w-24 animate-pulse rounded-full bg-gradient-to-r from-muted via-muted/50 to-muted" />
               ) : isSignedIn && user ? (
-                // User avatar
-                <Button
-                  variant="ghost"
-                  className="relative h-10 w-10 rounded-full p-0"
-                >
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage
-                      src={user.imageUrl}
-                      alt={user.fullName || "User"}
-                    />
-                    <AvatarFallback>{getUserInitials()}</AvatarFallback>
-                  </Avatar>
-                </Button>
+                // Enhanced User Profile Section
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative h-12 rounded-full pl-2 pr-4 hover:bg-accent/50 transition-all duration-300 group"
+                    >
+                      <div className="flex items-center gap-3">
+                        {/* Avatar with gradient border and status indicator */}
+                        <div className="relative">
+                          <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-75 group-hover:opacity-100 blur-sm transition duration-300"></div>
+                          <Avatar className="relative h-9 w-9 ring-2 ring-background">
+                            <AvatarImage
+                              src={user.imageUrl}
+                              alt={user.fullName || "User"}
+                              className="object-cover"
+                            />
+                            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold text-sm">
+                              {getUserInitials()}
+                            </AvatarFallback>
+                          </Avatar>
+                          {/* Online status indicator */}
+                          <div className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-background"></div>
+                        </div>
+                        
+                        {/* User name with truncation */}
+                        <span className="text-sm font-medium max-w-[120px] truncate group-hover:text-foreground transition-colors">
+                          {user.firstName || "User"}
+                        </span>
+                      </div>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  
+                  {/* Enhanced Dropdown Menu */}
+                  <DropdownMenuContent 
+                    align="end" 
+                    className="w-72 p-2 mt-2 shadow-2xl border-2 animate-in slide-in-from-top-2"
+                  >
+                    {/* User Info Header */}
+                    <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 p-4 mb-2">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-12 w-12 ring-2 ring-white/20">
+                          <AvatarImage
+                            src={user.imageUrl}
+                            alt={user.fullName || "User"}
+                            className="object-cover"
+                          />
+                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
+                            {getUserInitials()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold truncate">
+                            {user.fullName || user.firstName}
+                          </p>
+                          <p className="text-xs text-muted-foreground truncate">
+                            {user.primaryEmailAddress?.emailAddress}
+                          </p>
+                          <div className="flex items-center gap-1 mt-1">
+                            <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                            <span className="text-xs text-green-600 dark:text-green-400 font-medium">Active</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <DropdownMenuSeparator className="my-2" />
+                    
+                    {/* Profile Menu Item */}
+                    <DropdownMenuItem asChild>
+                      <Link 
+                        href="/profile" 
+                        className="cursor-pointer rounded-md px-3 py-2.5 flex items-center gap-3 hover:bg-accent transition-colors"
+                      >
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                          <User2 className="h-4 w-4" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">Profile Settings</p>
+                          <p className="text-xs text-muted-foreground">Manage your account</p>
+                        </div>
+                      </Link>
+                    </DropdownMenuItem>
+                    
+                    <DropdownMenuSeparator className="my-2" />
+                    
+                    {/* Logout Menu Item */}
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="cursor-pointer rounded-md px-3 py-2.5 flex items-center gap-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 focus:bg-red-50 dark:focus:bg-red-950/20 focus:text-red-600 dark:focus:text-red-400 transition-colors"
+                    >
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500/10">
+                        <LogOut className="h-4 w-4" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">Sign Out</p>
+                        <p className="text-xs opacity-75">See you soon!</p>
+                      </div>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
-                // Login button
+                // Enhanced Login button
                 <Button
                   size="lg"
-                  className="rounded-full text-sm sm:text-base"
+                  className="rounded-full text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300"
                   asChild
                 >
                   <Link href="/sign-in">Login</Link>

@@ -56,3 +56,51 @@ export async function createOrUpdateUser(userData: {
     throw new Error('Failed to create or update user');
   }
 }
+
+export async function getUserByClerkId(clerkId: string) {
+  try {
+    await dbConnect();
+    const user = await User.findOne({ clerkId });
+    
+    if (!user) {
+      throw new Error('User not found');
+    }
+    
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    console.error('Error in getUserByClerkId:', error);
+    throw new Error('Failed to fetch user');
+  }
+}
+
+export async function updateUserProfile(clerkId: string, userData: {
+  firstname: string;
+  lastname?: string;
+  email: string;
+  imageUrl?: string;
+}) {
+  try {
+    await dbConnect();
+    
+    const user = await User.findOne({ clerkId });
+    
+    if (!user) {
+      throw new Error('User not found');
+    }
+    
+    user.firstname = userData.firstname;
+    user.lastname = userData.lastname;
+    user.email = userData.email;
+    if (userData.imageUrl) {
+      user.imageUrl = userData.imageUrl;
+    }
+    user.updatedAt = Date.now();
+    
+    await user.save();
+    
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    console.error('Error in updateUserProfile:', error);
+    throw new Error('Failed to update user profile');
+  }
+}
