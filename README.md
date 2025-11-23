@@ -2,8 +2,12 @@
 
 **AI Travel Management** is a cutting-edge, intelligent travel planning application designed to create personalized, day-by-day itineraries tailored to your unique preferences. Powered by advanced AI and secured with modern web technologies, it transforms the way you plan your journeys.
 
-![App Banner](/public/screenshots/banner.png)
-_(Add a banner image here)_
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-username%2Fai-travel-management)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge&logo=vercel)](https://ai-travel-planner-app.vercel.app/)
+
+_(Replace the link above with your actual Vercel deployment URL)_
+
+![App Banner](/public/screenshots/home.png)
 
 ## ✨ Features
 
@@ -55,7 +59,7 @@ Follow these steps to set up the project locally:
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/your-username/ai-travel-management.git
+    git clone https://github.com/theabdulla0/ai-travel-management.git
     cd ai-travel-management
     ```
 
@@ -100,12 +104,17 @@ Follow these steps to set up the project locally:
 |                 Home Page                  |                Trip Generation                |
 | :----------------------------------------: | :-------------------------------------------: |
 | ![Home Page](/public/screenshots/home.png) | ![Trip Gen](/public/screenshots/trip-gen.png) |
-|        _(Add Home Page Screenshot)_        |       _(Add Chat Interface Screenshot)_       |
+|               _Landing Page_               |              _AI Chat Interface_              |
 
 |                     Trip Details                      |                User Profile                 |
 | :---------------------------------------------------: | :-----------------------------------------: |
 | ![Trip Details](/public/screenshots/trip-details.png) | ![Profile](/public/screenshots/profile.png) |
-|           _(Add Itinerary View Screenshot)_           |       _(Add Profile Page Screenshot)_       |
+|                 _Detailed Itinerary_                  |               _User Settings_               |
+
+|                   My Trips                   |     |
+| :------------------------------------------: | :-: |
+| ![My Trips](/public/screenshots/myTrips.png) |     |
+|                _Trip History_                |     |
 
 ## 🤝 Contributing
 
