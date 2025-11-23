@@ -1,5 +1,6 @@
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Home, Star, MapPin, ExternalLink } from "lucide-react";
 
 export function HotelCard({ hotel }: { hotel: any }) {
@@ -18,8 +19,8 @@ export function HotelCard({ hotel }: { hotel: any }) {
       <div className="relative z-10 p-1">
         <div className="flex flex-col sm:flex-row gap-4 bg-white/60 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4">
           {hotel.imageUrl ? (
-             <div className="w-full sm:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
-               <img src={hotel.imageUrl} alt={hotel.name} className="w-full h-full object-cover" />
+             <div className="w-full sm:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0 relative">
+               <Image src={hotel.imageUrl} alt={hotel.name} fill className="object-cover" />
              </div>
           ) : (
             <div className="w-full sm:w-32 h-32 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0 text-emerald-600">

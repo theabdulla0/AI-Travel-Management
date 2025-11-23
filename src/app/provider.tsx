@@ -1,7 +1,7 @@
 // app/provider.tsx
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import Header from "./components/header";
 import { useUser } from "@clerk/nextjs";
 import { createOrUpdateUser } from "./actions/user";
@@ -15,13 +15,7 @@ function Provider({
   const { user, isLoaded, isSignedIn } = useUser();
   const [userDetail, setUserDetail] = useState<any>("");
 
-  useEffect(() => {
-    if (isLoaded && isSignedIn && user) {
-      checkUser();
-    }
-  }, [user?.id, isLoaded, isSignedIn]);
-
-  const checkUser = async () => {
+  const checkUser = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -38,7 +32,14 @@ function Provider({
     } catch (error) {
       console.error("Provider: User sync FAILED:", error);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      checkUser();
+    }
+  }, [isLoaded, isSignedIn, user, checkUser]);
+
   if (!isLoaded) {
     return (
       <div>

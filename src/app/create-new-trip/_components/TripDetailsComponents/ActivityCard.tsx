@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { 
   MapPin, 
   Clock,
@@ -52,10 +53,11 @@ export function ActivityCard({ activity, index }: { activity: any; index: number
           {/* Activity Image */}
           {activity.imageUrl ? (
             <div className="w-full sm:w-32 h-32 rounded-xl overflow-hidden flex-shrink-0 relative group-hover:shadow-md transition-all">
-              <img 
+              <Image 
                 src={activity.imageUrl} 
                 alt={activity.name} 
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-500" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
