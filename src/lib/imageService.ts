@@ -27,10 +27,6 @@ export async function fetchPlaceDetails(query: string): Promise<PlaceDetails> {
       },
     });
 
-    console.log(`SerpAPI image search for "${query}":`, {
-      found: imageResponse.data.images_results?.length || 0,
-    });
-
     const imageResults = imageResponse.data.images_results || [];
     const imageUrl = imageResults.length > 0 
       ? (imageResults[0].original || imageResults[0].thumbnail)
@@ -44,7 +40,6 @@ export async function fetchPlaceDetails(query: string): Promise<PlaceDetails> {
       mapLink,
     };
 
-    console.log(`Final result for "${query}":`, result);
     return result;
 
   } catch (error: any) {

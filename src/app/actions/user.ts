@@ -10,19 +10,13 @@ export async function createOrUpdateUser(userData: {
   imageUrl: string;
   email: string;
 }) {
-  console.log("Server Action: createOrUpdateUser started");
-  console.log("Data received:", userData);
-  
   const uri = process.env.MONGODB_URI;
   if (!uri) {
     console.error("CRITICAL ERROR: MONGODB_URI is not defined in environment variables");
     throw new Error("MONGODB_URI not defined");
   }
-  console.log("MONGODB_URI is defined (length: " + uri.length + ")");
-
   try {
     await dbConnect();
-    console.log("DB Connected successfully");
 
     const existingUser = await User.findOne({ clerkId: userData.clerkId });
 

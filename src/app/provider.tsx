@@ -19,7 +19,6 @@ function Provider({
     if (!user) return;
 
     try {
-      console.log("Provider: Starting user sync for Clerk ID:", user.id);
       const result = await createOrUpdateUser({
         clerkId: user.id,
         email: user.primaryEmailAddress?.emailAddress ?? "",
@@ -28,7 +27,6 @@ function Provider({
         imageUrl: user.imageUrl ?? "",
       });
       setUserDetail(result);
-      console.log("Provider: User sync successful. Result:", result);
     } catch (error) {
       console.error("Provider: User sync FAILED:", error);
     }
